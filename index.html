@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FITOUSSI — Chauffeur Privé · Biarritz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0B0B0C;
+    --surface:#141416;
+    --surface-2:#1B1B1E;
+    --line:#2A2A2E;
+    --ivory:#F5F2EC;
+    --muted:#8A8782;
+    --muted-2:#615F5B;
+    --gold:#C9A86A;
+    --gold-bright:#E6D2A2;
+    --gold-soft:rgba(201,168,106,.14);
+    --serif:'Cormorant Garamond', Georgia, serif;
+    --sans:'Jost', -apple-system, BlinkMacSystemFont, sans-serif;
+    --maxw:1180px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--black);
+    color:var(--ivory);
+    font-family:var(--sans);
+    font-weight:300;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--gold);color:var(--black)}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  button{font-family:inherit;cursor:pointer}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .eyebrow{
+    font-size:11px;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--gold);font-weight:400;display:inline-flex;align-items:center;gap:14px;
+  }
+  .eyebrow::before{content:"";width:32px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+  .eyebrow.center::after{content:"";width:32px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+
+  h1,h2,h3{font-family:var(--serif);font-weight:300;line-height:1.08;letter-spacing:.01em}
+  .serif-i{font-style:italic;color:var(--gold-bright)}
+
+  /* ---------- Header ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:26px 0;transition:padding .4s var(--ease),background .4s var(--ease),border-color .4s var(--ease);
+    border-bottom:1px solid transparent;
+  }
+  header.scrolled{
+    padding:15px 0;background:rgba(11,11,12,.82);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:13px}
+  .monogram{
+    width:42px;height:42px;border:1px solid var(--gold);border-radius:50%;
+    display:grid;place-items:center;flex:none;position:relative;
+    font-family:var(--serif);font-size:17px;letter-spacing:.04em;
+    color:var(--gold-bright);transition:transform .5s var(--ease);
+  }
+  .brand:hover .monogram{transform:rotate(8deg)}
+  .brand-name{display:flex;flex-direction:column;line-height:1.05}
+  .brand-name b{font-weight:400;letter-spacing:.34em;font-size:15px;text-transform:uppercase}
+  .brand-name span{font-size:9.5px;letter-spacing:.26em;color:var(--muted);text-transform:uppercase;margin-top:3px}
+  .nav-links{display:flex;align-items:center;gap:38px}
+  .nav-links a{font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ivory);opacity:.78;transition:opacity .3s,color .3s;position:relative}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;height:1px;width:0;background:var(--gold);transition:width .35s var(--ease)}
+  .nav-links a:hover{opacity:1;color:var(--gold-bright)}
+  .nav-links a:hover::after{width:100%}
+  .btn{
+    font-family:var(--sans);font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:400;
+    padding:13px 26px;border-radius:2px;transition:all .4s var(--ease);display:inline-flex;align-items:center;gap:10px;
+  }
+  .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--black);border:1px solid transparent;font-weight:500}
+  .btn-gold:hover{box-shadow:0 8px 30px -8px rgba(201,168,106,.55);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--ivory);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold-bright)}
+  .nav .btn-gold{padding:11px 22px}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:6px}
+  .burger span{width:24px;height:1.5px;background:var(--ivory);transition:.3s}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;z-index:0}
+  .hero-grad{position:absolute;inset:0;background:
+    radial-gradient(120% 80% at 50% 120%, rgba(201,168,106,.10), transparent 55%),
+    radial-gradient(80% 60% at 80% 0%, rgba(40,40,46,.6), transparent 60%),
+    linear-gradient(180deg,#0B0B0C 0%, #100F10 60%, #0B0B0C 100%);}
+  .beam{
+    position:absolute;left:50%;bottom:-5%;width:140vw;height:140vh;
+    transform-origin:50% 100%;
+    background:conic-gradient(from 90deg at 50% 100%, transparent 0deg, rgba(201,168,106,.07) 6deg, transparent 13deg);
+    animation:sweep 14s linear infinite;
+  }
+  @keyframes sweep{from{transform:translateX(-50%) rotate(-22deg)}50%{transform:translateX(-50%) rotate(22deg)}to{transform:translateX(-50%) rotate(-22deg)}}
+  .hero-vignette{position:absolute;inset:0;background:radial-gradient(110% 100% at 50% 40%, transparent 50%, rgba(0,0,0,.55) 100%)}
+  .coast{position:absolute;left:0;right:0;bottom:0;width:100%;opacity:.5}
+
+  .hero-inner{position:relative;z-index:2;padding-top:90px}
+  .hero h1{font-size:clamp(46px,7.5vw,104px);max-width:13ch;margin:26px 0 0}
+  .hero .sub{max-width:54ch;margin-top:30px;font-size:16.5px;color:var(--muted);font-weight:300}
+  .hero .sub strong{color:var(--ivory);font-weight:400}
+  .hero-cta{display:flex;gap:16px;margin-top:42px;flex-wrap:wrap}
+  .scroll-cue{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--muted);font-size:10px;letter-spacing:.28em;text-transform:uppercase}
+  .scroll-cue .bar{width:1px;height:42px;background:linear-gradient(var(--gold),transparent);position:relative;overflow:hidden}
+  .scroll-cue .bar::after{content:"";position:absolute;top:-50%;left:0;width:1px;height:50%;background:var(--gold-bright);animation:drop 2.2s var(--ease) infinite}
+  @keyframes drop{0%{top:-50%}60%,100%{top:120%}}
+
+  /* ---------- Section frame ---------- */
+  section{position:relative}
+  .sec{padding:120px 0}
+  .sec-head{max-width:640px;margin-bottom:64px}
+  .sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+  .sec-head h2{font-size:clamp(34px,4.4vw,58px);margin-top:20px}
+  .sec-head p{color:var(--muted);margin-top:18px;font-size:16px}
+  .divider{height:1px;background:var(--line);max-width:var(--maxw);margin:0 auto}
+
+  /* ---------- Booking ---------- */
+  #reserver{background:linear-gradient(180deg,#0B0B0C, #100F11)}
+  .booking{
+    background:var(--surface);border:1px solid var(--line);border-radius:6px;
+    overflow:hidden;box-shadow:0 40px 90px -50px rgba(0,0,0,.9);
+  }
+  .booking-top{display:flex;align-items:center;justify-content:space-between;padding:22px 30px;border-bottom:1px solid var(--line);gap:18px;flex-wrap:wrap}
+  .steps{display:flex;align-items:center;gap:0;flex-wrap:wrap}
+  .step{display:flex;align-items:center;gap:11px;color:var(--muted-2);transition:color .4s}
+  .step .num{width:30px;height:30px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;font-size:12px;transition:all .4s var(--ease);flex:none}
+  .step .lbl{font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+  .step.active{color:var(--gold-bright)}
+  .step.active .num{border-color:var(--gold);background:var(--gold-soft);color:var(--gold-bright)}
+  .step.done{color:var(--ivory)}
+  .step.done .num{border-color:var(--gold);background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--black)}
+  .step-sep{width:26px;height:1px;background:var(--line);margin:0 14px}
+  @media(max-width:720px){.step .lbl{display:none}.step-sep{width:16px;margin:0 8px}}
+
+  .booking-body{padding:40px 44px 30px}
+  .panel{display:none;animation:fade .5s var(--ease)}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .panel-title{font-family:var(--serif);font-size:27px;font-weight:400;margin-bottom:6px}
+  .panel-hint{color:var(--muted);font-size:13.5px;margin-bottom:30px}
+
+  .field{margin-bottom:22px}
+  .field label{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+  .control{
+    width:100%;background:var(--surface-2);border:1px solid var(--line);color:var(--ivory);
+    font-family:var(--sans);font-size:15px;font-weight:300;padding:14px 16px;border-radius:3px;transition:border-color .3s,background .3s;
+  }
+  .control::placeholder{color:var(--muted-2)}
+  .control:focus{outline:none;border-color:var(--gold);background:#202024}
+  textarea.control{resize:vertical;min-height:90px}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:620px){.grid-2{grid-template-columns:1fr}}
+
+  /* route visual */
+  .route{display:grid;grid-template-columns:24px 1fr;gap:0 16px;align-items:start;margin-bottom:24px}
+  .route-rail{display:flex;flex-direction:column;align-items:center;padding-top:42px;height:100%}
+  .route-dot{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--gold);flex:none}
+  .route-dot.fill{background:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)}
+  .route-dot.sq{border-radius:1px}
+  .route-line{width:1px;flex:1;min-height:30px;background:repeating-linear-gradient(var(--gold) 0 4px,transparent 4px 9px);opacity:.6}
+  .route-fields{display:flex;flex-direction:column;gap:20px}
+
+  /* chips */
+  .chips{display:flex;gap:12px;flex-wrap:wrap}
+  .chip{
+    background:var(--surface-2);border:1px solid var(--line);color:var(--ivory);
+    padding:11px 20px;border-radius:40px;font-size:13px;letter-spacing:.05em;transition:all .3s var(--ease);
+  }
+  .chip:hover{border-color:var(--muted)}
+  .chip.sel{border-color:var(--gold);background:var(--gold-soft);color:var(--gold-bright)}
+
+  /* stepper */
+  .steppers{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:620px){.steppers{grid-template-columns:1fr}}
+  .stepper{display:flex;align-items:center;justify-content:space-between;background:var(--surface-2);border:1px solid var(--line);border-radius:3px;padding:11px 14px}
+  .stepper .v{font-size:18px;font-family:var(--serif)}
+  .rnd{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:none;color:var(--ivory);font-size:18px;display:grid;place-items:center;transition:all .3s}
+  .rnd:hover{border-color:var(--gold);color:var(--gold-bright)}
+
+  /* vehicle cards */
+  .vehicles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:760px){.vehicles{grid-template-columns:1fr}}
+  .veh{
+    background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:26px 22px;cursor:pointer;
+    transition:all .35s var(--ease);position:relative;overflow:hidden;
+  }
+  .veh:hover{border-color:var(--muted);transform:translateY(-3px)}
+  .veh.sel{border-color:var(--gold);background:linear-gradient(180deg,rgba(201,168,106,.10),transparent)}
+  .veh.sel::after{content:"✓";position:absolute;top:16px;right:18px;width:24px;height:24px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--black);border-radius:50%;display:grid;place-items:center;font-size:12px}
+  .veh .vname{font-family:var(--serif);font-size:23px;font-weight:400;color:var(--gold-bright)}
+  .veh .vclass{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:4px 0 16px}
+  .veh ul{list-style:none;font-size:13px;color:var(--muted)}
+  .veh ul li{padding:5px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between}
+  .veh-icon{font-size:26px;margin-bottom:14px;opacity:.85}
+
+  /* recap */
+  .recap{background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:8px 26px;margin-bottom:26px}
+  .recap-row{display:flex;justify-content:space-between;gap:20px;padding:15px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+  .recap-row:last-child{border-bottom:none}
+  .recap-row .k{color:var(--muted);letter-spacing:.04em}
+  .recap-row .val{color:var(--ivory);text-align:right;font-weight:400}
+  .note{font-size:12.5px;color:var(--muted-2);margin-top:4px}
+
+  .booking-nav{display:flex;justify-content:space-between;align-items:center;padding:24px 44px 36px;gap:16px}
+  .link-back{background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:9px;transition:color .3s}
+  .link-back:hover{color:var(--gold-bright)}
+  .err{color:#D98C7A;font-size:12.5px;margin-top:-10px;margin-bottom:14px;display:none}
+  .err.show{display:block}
+
+  /* success */
+  .success{text-align:center;padding:30px 20px 24px}
+  .success .seal{width:78px;height:78px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;margin:0 auto 26px;color:var(--gold-bright);font-size:34px;animation:pop .6s var(--ease)}
+  @keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+  .success h3{font-size:34px;margin-bottom:14px}
+  .success p{color:var(--muted);max-width:46ch;margin:0 auto 8px}
+
+  /* ---------- Services ---------- */
+  .services{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+  @media(max-width:860px){.services{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.services{grid-template-columns:1fr}}
+  .svc{padding:38px 34px;border:1px solid var(--line);margin:-0.5px;transition:background .4s var(--ease);position:relative}
+  .svc:hover{background:var(--surface)}
+  .svc .ix{font-family:var(--serif);font-size:13px;color:var(--gold);letter-spacing:.1em}
+  .svc h3{font-size:25px;margin:18px 0 12px}
+  .svc p{color:var(--muted);font-size:14.5px}
+
+  /* ---------- Founder ---------- */
+  #fondateur{background:linear-gradient(180deg,#0B0B0C,#0E0E0F)}
+  .founder{display:grid;grid-template-columns:0.9fr 1.1fr;gap:70px;align-items:center}
+  @media(max-width:860px){.founder{grid-template-columns:1fr;gap:44px}}
+  .portrait{position:relative;aspect-ratio:4/5;border:1px solid var(--line);border-radius:5px;overflow:hidden;background:
+    radial-gradient(80% 60% at 50% 30%, rgba(201,168,106,.16), transparent 60%),linear-gradient(160deg,#1B1B1E,#0E0E10)}
+  .portrait .pmono{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--serif);font-size:120px;color:rgba(201,168,106,.22);font-style:italic}
+  .portrait .pcap{position:absolute;left:24px;bottom:22px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .founder blockquote{font-family:var(--serif);font-size:clamp(24px,2.6vw,32px);line-height:1.4;font-weight:300;margin:26px 0}
+  .founder blockquote .serif-i{font-size:inherit}
+  .founder .signoff{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--gold-bright)}
+  .founder .signoff small{display:block;font-family:var(--sans);font-style:normal;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+  .founder p.bio{color:var(--muted);font-size:15px;margin-top:18px}
+
+  /* ---------- Engagements ---------- */
+  .engs{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+  @media(max-width:860px){.engs{grid-template-columns:1fr 1fr}}
+  @media(max-width:480px){.engs{grid-template-columns:1fr}}
+  .eng{text-align:center;padding:14px}
+  .eng .ei{font-size:30px;color:var(--gold);margin-bottom:16px;font-family:var(--serif)}
+  .eng h3{font-size:20px;margin-bottom:8px}
+  .eng p{color:var(--muted);font-size:13.5px}
+
+  /* ---------- Contact / CTA ---------- */
+  #contact{background:linear-gradient(180deg,#0E0E0F,#0B0B0C)}
+  .cta-band{text-align:center;max-width:720px;margin:0 auto}
+  .cta-band h2{font-size:clamp(36px,5vw,64px);margin:22px 0 24px}
+  .cta-band p{color:var(--muted);margin-bottom:38px}
+  .contact-grid{display:flex;justify-content:center;gap:60px;flex-wrap:wrap;margin-top:60px}
+  .contact-grid .ci{text-align:center}
+  .contact-grid .ci .k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  .contact-grid .ci .v{font-family:var(--serif);font-size:20px}
+
+  /* ---------- Footer ---------- */
+  footer{border-top:1px solid var(--line);padding:54px 0 40px}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap}
+  .foot .fnote{color:var(--muted-2);font-size:12px;letter-spacing:.05em}
+  .foot .fzone{color:var(--muted);font-size:12.5px;max-width:46ch;text-align:right}
+  @media(max-width:680px){.foot{flex-direction:column;text-align:center}.foot .fzone{text-align:center}}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* mobile nav */
+  @media(max-width:900px){
+    .nav-links{position:fixed;inset:0;background:rgba(11,11,12,.97);backdrop-filter:blur(10px);flex-direction:column;justify-content:center;gap:30px;transform:translateY(-100%);transition:transform .5s var(--ease);z-index:99}
+    .nav-links.open{transform:none}
+    .nav-links a{font-size:18px}
+    .burger{display:flex;z-index:101}
+    .nav .btn-gold{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header id="head">
+  <div class="wrap nav">
+    <a href="#top" class="brand" aria-label="Fitoussi, accueil">
+      <span class="monogram">GF</span>
+      <span class="brand-name"><b>Fitoussi</b><span>Chauffeur Privé · Biarritz</span></span>
+    </a>
+    <nav class="nav-links" id="navlinks">
+      <a href="#reserver">Réserver</a>
+      <a href="#services">Prestations</a>
+      <a href="#fondateur">Le Fondateur</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#reserver" class="btn btn-gold">Réserver une course</a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="top">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-grad"></div>
+    <div class="beam"></div>
+    <svg class="coast" viewBox="0 0 1440 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,180 C220,140 360,200 560,170 C760,140 900,205 1120,165 C1280,138 1380,180 1440,168 L1440,220 L0,220 Z" fill="#0B0B0C"/>
+      <path d="M0,182 C220,142 360,202 560,172 C760,142 900,207 1120,167 C1280,140 1380,182 1440,170" fill="none" stroke="rgba(201,168,106,.28)" stroke-width="1"/>
+    </svg>
+    <div class="hero-vignette"></div>
+  </div>
+  <div class="wrap hero-inner">
+    <span class="eyebrow">Biarritz · Côte Basque</span>
+    <h1>Le luxe discret <span class="serif-i">d'être attendu.</span></h1>
+    <p class="sub">Chauffeur privé d'exception sur la Côte Basque. Transferts, mises à disposition et trajets sur mesure — <strong>ponctualité absolue, conduite irréprochable, discrétion totale.</strong></p>
+    <div class="hero-cta">
+      <a href="#reserver" class="btn btn-gold">Réserver une course</a>
+      <a href="#services" class="btn btn-ghost">Nos prestations</a>
+    </div>
+  </div>
+  <div class="scroll-cue" aria-hidden="true"><span class="bar"></span>Découvrir</div>
+</section>
+
+<!-- ===================== BOOKING ===================== -->
+<section class="sec" id="reserver">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow center">Réservation</span>
+      <h2>Réservez en quelques instants</h2>
+      <p>Indiquez votre trajet, choisissez votre véhicule. Geoffroy vous confirme personnellement chaque course.</p>
+    </div>
+
+    <div class="booking reveal">
+      <!-- steps -->
+      <div class="booking-top">
+        <div class="steps" id="stepbar">
+          <div class="step active" data-s="1"><span class="num">1</span><span class="lbl">Itinéraire</span></div>
+          <span class="step-sep"></span>
+          <div class="step" data-s="2"><span class="num">2</span><span class="lbl">Détails</span></div>
+          <span class="step-sep"></span>
+          <div class="step" data-s="3"><span class="num">3</span><span class="lbl">Véhicule</span></div>
+          <span class="step-sep"></span>
+          <div class="step" data-s="4"><span class="num">4</span><span class="lbl">Coordonnées</span></div>
+          <span class="step-sep"></span>
+          <div class="step" data-s="5"><span class="num">5</span><span class="lbl">Confirmation</span></div>
+        </div>
+      </div>
+
+      <div class="booking-body">
+
+        <!-- STEP 1 : itinéraire -->
+        <div class="panel active" data-p="1">
+          <div class="panel-title">Votre itinéraire</div>
+          <div class="panel-hint">D'où partez-vous, où allez-vous ?</div>
+          <div class="route">
+            <div class="route-rail">
+              <span class="route-dot fill"></span>
+              <span class="route-line"></span>
+              <span class="route-dot sq"></span>
+            </div>
+            <div class="route-fields">
+              <div class="field" style="margin:0">
+                <label for="from">Adresse de départ</label>
+                <input class="control" id="from" placeholder="Ex. Aéroport de Biarritz (BIQ)" autocomplete="off">
+              </div>
+              <div class="field" style="margin:0">
+                <label for="to">Destination</label>
+                <input class="control" id="to" placeholder="Ex. Hôtel du Palais, Biarritz" autocomplete="off">
+              </div>
+            </div>
+          </div>
+          <p class="err" id="err1">Merci d'indiquer un départ et une destination.</p>
+          <div class="field">
+            <label>Type de prestation</label>
+            <div class="chips" id="svctype">
+              <button class="chip sel" data-v="Transfert">Transfert</button>
+              <button class="chip" data-v="Transfert aéroport / gare">Aéroport · Gare</button>
+              <button class="chip" data-v="Mise à disposition">Mise à disposition</button>
+              <button class="chip" data-v="Longue distance">Longue distance</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2 : détails -->
+        <div class="panel" data-p="2">
+          <div class="panel-title">Date & voyageurs</div>
+          <div class="panel-hint">Quand souhaitez-vous être pris en charge ?</div>
+          <div class="grid-2">
+            <div class="field"><label for="date">Date</label><input type="date" class="control" id="date"></div>
+            <div class="field"><label for="time">Heure</label><input type="time" class="control" id="time"></div>
+          </div>
+          <p class="err" id="err2">Merci d'indiquer une date et une heure.</p>
+          <div class="steppers" style="margin-top:6px">
+            <div class="field" style="margin:0">
+              <label>Passagers</label>
+              <div class="stepper"><button class="rnd" data-step="pax" data-d="-1">–</button><span class="v" id="paxV">1</span><button class="rnd" data-step="pax" data-d="1">+</button></div>
+            </div>
+            <div class="field" style="margin:0">
+              <label>Bagages</label>
+              <div class="stepper"><button class="rnd" data-step="bag" data-d="-1">–</button><span class="v" id="bagV">0</span><button class="rnd" data-step="bag" data-d="1">+</button></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3 : véhicule -->
+        <div class="panel" data-p="3">
+          <div class="panel-title">Votre véhicule</div>
+          <div class="panel-hint">Chaque véhicule est entretenu avec le plus grand soin.</div>
+          <div class="vehicles" id="vehicles">
+            <div class="veh sel" data-v="Berline Affaires">
+              <div class="veh-icon">▰</div>
+              <div class="vname">Berline Affaires</div>
+              <div class="vclass">Classe E · ou similaire</div>
+              <ul><li><span>Passagers</span><span>jusqu'à 3</span></li><li><span>Bagages</span><span>2 valises</span></li><li><span>Idéal</span><span>Transferts</span></li></ul>
+            </div>
+            <div class="veh" data-v="Première Classe">
+              <div class="veh-icon">◆</div>
+              <div class="vname">Première Classe</div>
+              <div class="vclass">Classe S · prestige</div>
+              <ul><li><span>Passagers</span><span>jusqu'à 3</span></li><li><span>Bagages</span><span>2 valises</span></li><li><span>Idéal</span><span>Réceptions</span></li></ul>
+            </div>
+            <div class="veh" data-v="Van Affaires">
+              <div class="veh-icon">▬</div>
+              <div class="vname">Van Affaires</div>
+              <div class="vclass">Classe V · espace</div>
+              <ul><li><span>Passagers</span><span>jusqu'à 7</span></li><li><span>Bagages</span><span>6 valises</span></li><li><span>Idéal</span><span>Groupes</span></li></ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4 : coordonnées -->
+        <div class="panel" data-p="4">
+          <div class="panel-title">Vos coordonnées</div>
+          <div class="panel-hint">Pour vous confirmer la course et vous accueillir comme il se doit.</div>
+          <div class="grid-2">
+            <div class="field"><label for="name">Nom complet</label><input class="control" id="name" placeholder="Prénom Nom" autocomplete="name"></div>
+            <div class="field"><label for="tel">Téléphone</label><input class="control" id="tel" placeholder="06 00 00 00 00" autocomplete="tel"></div>
+          </div>
+          <div class="field"><label for="email">E-mail</label><input class="control" id="email" placeholder="vous@exemple.com" autocomplete="email"></div>
+          <p class="err" id="err4">Merci d'indiquer votre nom et un moyen de vous joindre.</p>
+          <div class="field"><label for="notes">Demande particulière <span style="text-transform:none;letter-spacing:0">(facultatif)</span></label><textarea class="control" id="notes" placeholder="Numéro de vol, siège enfant, arrêt intermédiaire…"></textarea></div>
+        </div>
+
+        <!-- STEP 5 : récapitulatif -->
+        <div class="panel" data-p="5">
+          <div id="recapView">
+            <div class="panel-title">Récapitulatif</div>
+            <div class="panel-hint">Vérifiez les informations avant d'envoyer votre demande.</div>
+            <div class="recap" id="recap"></div>
+            <p class="note">Aucun paiement n'est demandé en ligne. Geoffroy vous recontacte pour confirmer la disponibilité et le tarif de votre course.</p>
+          </div>
+          <div class="success" id="successView" style="display:none">
+            <div class="seal">✓</div>
+            <h3>Demande bien reçue.</h3>
+            <p>Merci <span id="succName">.</span> Votre demande de course a été transmise.</p>
+            <p>Geoffroy Fitoussi vous recontacte très prochainement pour la confirmer. À bientôt sur la route.</p>
+            <div style="margin-top:30px"><button class="btn btn-ghost" id="resetBtn">Nouvelle réservation</button></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- nav -->
+      <div class="booking-nav" id="booknav">
+        <button class="link-back" id="backBtn" style="visibility:hidden">← Précédent</button>
+        <button class="btn btn-gold" id="nextBtn">Continuer →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== SERVICES ===================== -->
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Prestations</span>
+      <h2>Un service taillé pour <span class="serif-i">chaque occasion</span></h2>
+      <p>De l'aéroport à la villa, du dîner d'affaires à l'excursion sur la côte — un seul interlocuteur, une exigence constante.</p>
+    </div>
+    <div class="services reveal">
+      <div class="svc"><span class="ix">01</span><h3>Transferts aéroport & gare</h3><p>Accueil personnalisé, suivi des vols en temps réel, prise en charge des bagages. Vous êtes attendu, jamais l'inverse.</p></div>
+      <div class="svc"><span class="ix">02</span><h3>Mise à disposition</h3><p>Un chauffeur et un véhicule à votre entière disposition, à l'heure ou à la journée, au gré de votre programme.</p></div>
+      <div class="svc"><span class="ix">03</span><h3>Trajets d'affaires</h3><p>Ponctualité irréprochable et confort de travail à bord. Vos rendez-vous, sans la moindre contrainte logistique.</p></div>
+      <div class="svc"><span class="ix">04</span><h3>Événements & cérémonies</h3><p>Mariages, réceptions, soirées de gala. Une arrivée à la hauteur de l'événement, dans la plus grande élégance.</p></div>
+      <div class="svc"><span class="ix">05</span><h3>Excursions Côte Basque</h3><p>San Sebastián, Saint-Jean-de-Luz, les villages de l'arrière-pays. Découvrez la région à votre rythme.</p></div>
+      <div class="svc"><span class="ix">06</span><h3>Longue distance</h3><p>Bordeaux, Toulouse, l'Espagne. Les longs trajets deviennent une parenthèse confortable et sereine.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== FOUNDER ===================== -->
+<section class="sec" id="fondateur">
+  <div class="wrap">
+    <div class="founder">
+      <div class="portrait reveal" aria-hidden="true">
+        <div class="pmono">GF</div>
+        <div class="pcap">Geoffroy Fitoussi — Fondateur</div>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Le Fondateur</span>
+        <blockquote>« Conduire, c'est <span class="serif-i">prendre soin</span>. De l'heure de mes clients, de leur tranquillité, et de chaque détail qu'ils ne devraient jamais avoir à demander. »</blockquote>
+        <div class="signoff">Geoffroy Fitoussi<small>Fondateur · Chauffeur</small></div>
+        <p class="bio">Né d'une passion pour l'excellence du service à la française, Fitoussi est né à Biarritz d'une conviction simple : le grand luxe tient dans la précision et la discrétion. Geoffroy a fondé sa maison pour offrir un accompagnement personnel, à des clients qui n'ont plus à se soucier de rien.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== ENGAGEMENTS ===================== -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow center">Nos engagements</span>
+      <h2>Ce sur quoi vous pouvez compter</h2>
+    </div>
+    <div class="engs reveal">
+      <div class="eng"><div class="ei">⏱</div><h3>Ponctualité</h3><p>Toujours en avance. Votre temps est ce que nous protégeons en premier.</p></div>
+      <div class="eng"><div class="ei">❖</div><h3>Discrétion</h3><p>Conversations, déplacements, confidentialité. Ce qui se passe à bord y reste.</p></div>
+      <div class="eng"><div class="ei">✦</div><h3>Confort</h3><p>Véhicules récents et impeccables, eau, presse, chargeurs. Tout est prévu.</p></div>
+      <div class="eng"><div class="ei">☾</div><h3>Disponible 24h/24</h3><p>De jour comme de nuit, sept jours sur sept, sur simple demande.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT / CTA ===================== -->
+<section class="sec" id="contact">
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <span class="eyebrow center">À votre service</span>
+      <h2>Réservez votre prochaine course</h2>
+      <p>Une question, une demande sur mesure ou un trajet à organiser ? Geoffroy vous répond personnellement.</p>
+      <a href="#reserver" class="btn btn-gold">Réserver maintenant</a>
+      <div class="contact-grid">
+        <div class="ci"><div class="k">Téléphone</div><div class="v">+33 6 00 00 00 00</div></div>
+        <div class="ci"><div class="k">E-mail</div><div class="v">contact@fitoussi.fr</div></div>
+        <div class="ci"><div class="k">Disponibilité</div><div class="v">7j/7 · 24h/24</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap foot">
+    <a href="#top" class="brand"><span class="monogram">GF</span><span class="brand-name"><b>Fitoussi</b><span>Chauffeur Privé · Biarritz</span></span></a>
+    <div class="fnote">© 2026 Fitoussi — Tous droits réservés.</div>
+    <div class="fzone">Biarritz · Anglet · Bayonne · Saint-Jean-de-Luz · Hossegor · San Sebastián · Aéroport BIQ</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---- header scroll ---- */
+  var head = document.getElementById('head');
+  window.addEventListener('scroll', function(){
+    head.classList.toggle('scrolled', window.scrollY > 40);
+  }, {passive:true});
+
+  /* ---- mobile nav ---- */
+  var burger = document.getElementById('burger');
+  var navlinks = document.getElementById('navlinks');
+  burger.addEventListener('click', function(){ navlinks.classList.toggle('open'); });
+  navlinks.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ navlinks.classList.remove('open'); });
+  });
+
+  /* ---- reveal on scroll ---- */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  /* ---- booking state ---- */
+  var state = { step:1, svc:'Transfert', pax:1, bag:0, veh:'Berline Affaires' };
+  var MAX = 5;
+  var panels = document.querySelectorAll('.panel');
+  var stepEls = document.querySelectorAll('#stepbar .step');
+  var backBtn = document.getElementById('backBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var booknav = document.getElementById('booknav');
+
+  function render(){
+    panels.forEach(function(p){ p.classList.toggle('active', +p.dataset.p === state.step); });
+    stepEls.forEach(function(s){
+      var n = +s.dataset.s;
+      s.classList.toggle('active', n === state.step);
+      s.classList.toggle('done', n < state.step);
+    });
+    backBtn.style.visibility = state.step === 1 ? 'hidden' : 'visible';
+    nextBtn.textContent = state.step === MAX ? 'Confirmer la demande' : 'Continuer →';
+  }
+
+  /* chips : type prestation */
+  document.getElementById('svctype').addEventListener('click', function(e){
+    var c = e.target.closest('.chip'); if(!c) return;
+    this.querySelectorAll('.chip').forEach(function(x){ x.classList.remove('sel'); });
+    c.classList.add('sel'); state.svc = c.dataset.v;
+  });
+
+  /* vehicles */
+  document.getElementById('vehicles').addEventListener('click', function(e){
+    var v = e.target.closest('.veh'); if(!v) return;
+    this.querySelectorAll('.veh').forEach(function(x){ x.classList.remove('sel'); });
+    v.classList.add('sel'); state.veh = v.dataset.v;
+  });
+
+  /* steppers */
+  document.querySelectorAll('.rnd').forEach(function(b){
+    b.addEventListener('click', function(){
+      var key = b.dataset.step, d = +b.dataset.d;
+      var min = key === 'pax' ? 1 : 0, max = key === 'pax' ? 7 : 10;
+      state[key] = Math.min(max, Math.max(min, state[key] + d));
+      document.getElementById(key + 'V').textContent = state[key];
+    });
+  });
+
+  /* validation per step */
+  function showErr(id, on){ var e = document.getElementById(id); if(e) e.classList.toggle('show', on); }
+  function valid(step){
+    if(step === 1){
+      var ok = document.getElementById('from').value.trim() && document.getElementById('to').value.trim();
+      showErr('err1', !ok); return ok;
+    }
+    if(step === 2){
+      var ok = document.getElementById('date').value && document.getElementById('time').value;
+      showErr('err2', !ok); return ok;
+    }
+    if(step === 4){
+      var n = document.getElementById('name').value.trim();
+      var t = document.getElementById('tel').value.trim();
+      var m = document.getElementById('email').value.trim();
+      var ok = n && (t || m); showErr('err4', !ok); return ok;
+    }
+    return true;
+  }
+
+  function buildRecap(){
+    function fmtDate(d){ if(!d) return '—'; var p = d.split('-'); return p.length===3 ? p[2]+'/'+p[1]+'/'+p[0] : d; }
+    var rows = [
+      ['Trajet', (document.getElementById('from').value || '—') + '  →  ' + (document.getElementById('to').value || '—')],
+      ['Prestation', state.svc],
+      ['Date & heure', fmtDate(document.getElementById('date').value) + ' · ' + (document.getElementById('time').value || '—')],
+      ['Voyageurs', state.pax + ' passager' + (state.pax>1?'s':'') + ' · ' + state.bag + ' bagage' + (state.bag>1?'s':'')],
+      ['Véhicule', state.veh],
+      ['Contact', (document.getElementById('name').value || '—') + ' · ' + (document.getElementById('tel').value || document.getElementById('email').value || '—')]
+    ];
+    var notes = document.getElementById('notes').value.trim();
+    if(notes) rows.push(['Demande', notes]);
+    document.getElementById('recap').innerHTML = rows.map(function(r){
+      return '<div class="recap-row"><span class="k">'+r[0]+'</span><span class="val">'+
+        r[1].replace(/</g,'&lt;')+'</span></div>';
+    }).join('');
+  }
+
+  function go(step){
+    state.step = Math.min(MAX, Math.max(1, step));
+    if(state.step === MAX) buildRecap();
+    render();
+    var sec = document.getElementById('reserver');
+    if(window.scrollY > sec.offsetTop + 40){ sec.scrollIntoView({behavior:'smooth'}); }
+  }
+
+  backBtn.addEventListener('click', function(){ go(state.step - 1); });
+  nextBtn.addEventListener('click', function(){
+    if(!valid(state.step)) return;
+    if(state.step === MAX){ submit(); return; }
+    go(state.step + 1);
+  });
+
+  function submit(){
+    document.getElementById('recapView').style.display = 'none';
+    document.getElementById('successView').style.display = 'block';
+    booknav.style.display = 'none';
+    var nm = document.getElementById('name').value.trim();
+    document.getElementById('succName').textContent = nm ? nm + ',' : '.';
+  }
+
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    ['from','to','date','time','name','tel','email','notes'].forEach(function(id){ document.getElementById(id).value=''; });
+    state = { step:1, svc:'Transfert', pax:1, bag:0, veh:'Berline Affaires' };
+    document.getElementById('paxV').textContent = '1';
+    document.getElementById('bagV').textContent = '0';
+    document.querySelectorAll('#svctype .chip').forEach(function(c,i){ c.classList.toggle('sel', i===0); });
+    document.querySelectorAll('#vehicles .veh').forEach(function(v,i){ v.classList.toggle('sel', i===0); });
+    document.getElementById('recapView').style.display = 'block';
+    document.getElementById('successView').style.display = 'none';
+    booknav.style.display = 'flex';
+    render();
+  });
+
+  /* set sensible date default = today */
+  (function(){
+    var d = new Date();
+    var iso = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    document.getElementById('date').min = iso;
+  })();
+
+  render();
+})();
+</script>
+</body>
+</html>
